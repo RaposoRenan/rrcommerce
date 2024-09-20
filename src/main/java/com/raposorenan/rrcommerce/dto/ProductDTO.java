@@ -1,7 +1,10 @@
 package com.raposorenan.rrcommerce.dto;
 
 import com.raposorenan.rrcommerce.entities.Product;
-import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 public class ProductDTO {
 
@@ -32,14 +35,19 @@ public class ProductDTO {
         return id;
     }
 
+    @Size(min = 3, max = 80, message = "Nome precisa ter de 3 a 80 caracteres")
+    @NotBlank(message = "Campo requerido")
     public String getName() {
         return name;
     }
 
+    @Size(min = 10, message = "Descrição de ter no minímo 10 caracteres")
+    @NotBlank(message = "Campo requerido")
     public String getDescription() {
         return description;
     }
 
+    @Positive(message = "O preço tem que ser positivo")
     public Double getPrice() {
         return price;
     }
