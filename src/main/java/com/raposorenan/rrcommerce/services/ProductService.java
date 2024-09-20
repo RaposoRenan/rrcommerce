@@ -3,6 +3,7 @@ package com.raposorenan.rrcommerce.services;
 import com.raposorenan.rrcommerce.dto.ProductDTO;
 import com.raposorenan.rrcommerce.entities.Product;
 import com.raposorenan.rrcommerce.repositories.ProductRepository;
+import com.raposorenan.rrcommerce.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,10 +21,9 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id){
-        Optional<Product> result = repository.findById(id);
-        Product product = result.get();
-        ProductDTO dto = new ProductDTO(product);
-        return dto;
+        Product product = repository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Recurso não encontrado"));
+        return new ProductDTO(product);
     }
 
     @Transactional(readOnly = true)
